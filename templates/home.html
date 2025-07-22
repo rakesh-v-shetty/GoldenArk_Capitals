@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoldenArk Capitals - Empowering the Future of Investments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* Custom styles to ensure Inter font is applied and general resets */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Override Tailwind's default to make sure links within sections stand out on hover */
+        a {
+            transition: color 0.3s ease;
+        }
+        /* For mobile menu, ensuring it slides down smoothly */
+        #mobile-menu {
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out, visibility 0.3s ease-out;
+            transform: translateY(-100%); /* Start hidden */
+            opacity: 0; /* Start invisible */
+            visibility: hidden; /* Hide element completely for accessibility */
+            pointer-events: none; /* Prevent interaction when hidden */
+        }
+        #mobile-menu.is-open {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* Overlay for mobile menu */
+        #menu-overlay {
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 30; /* Adjusted z-index relative to mobile menu */
+            transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+            opacity: 0; /* Start invisible */
+            visibility: hidden; /* Hide element completely */
+            pointer-events: none; /* Prevent interaction when hidden */
+        }
+        #menu-overlay.is-open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* Keyframe animations for subtle background pulses */
+        @keyframes pulse-slow {
+            0% { transform: scale(1) translateX(0); opacity: 0.2; }
+            50% { transform: scale(1.05) translateX(10px); opacity: 0.25; }
+            100% { transform: scale(1) translateX(0); opacity: 0.2; }
+        }
+
+        @keyframes pulse-slow-reverse {
+            0% { transform: scale(1) translateX(0); opacity: 0.2; }
+            50% { transform: scale(1.05) translateX(-10px); opacity: 0.25; }
+            100% { transform: scale(1) translateX(0); opacity: 0.2; }
+        }
+
+        .animate-pulse-slow {
+            animation: pulse-slow 8s infinite ease-in-out;
+        }
+
+        .animate-pulse-slow-reverse {
+            animation: pulse-slow-reverse 8s infinite ease-in-out;
+        }
+
+        /* Spinner styles */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #facc15; /* yellow-500 */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white min-h-screen antialiased">
+    <div class="relative overflow-hidden">
+
+        <header class="bg-black py-4 border-b border-gray-800 shadow-lg relative z-50">
+            <nav class="container mx-auto px-4 flex justify-between items-center">
+                <a href="/" class="text-yellow-500 text-2xl md:text-3xl font-extrabold tracking-tight hover:text-yellow-400 transition-colors duration-300">GoldenArk Capitals</a>
+                <ul class="hidden md:flex space-x-8 text-sm md:text-base font-medium">
+                    <li><a href="/" class="text-yellow-500 relative pb-1 group">Home <span class="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 scale-x-100 group-hover:scale-x-75 transition-transform duration-300"></span></a></li>
+                    <li><a href="/products" class="text-gray-400 hover:text-white relative pb-1 group">Our Products <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                    <li><a href="/performance" class="text-gray-400 hover:text-white relative pb-1 group">Performance <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                    <li><a href="/whyus" class="text-gray-400 hover:text-white relative pb-1 group">Why Choose Us <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                    <li><a href="/security" class="text-gray-400 hover:text-white relative pb-1 group">Security <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                    <li><a href="/strategy" class="text-gray-400 hover:text-white relative pb-1 group">Strategies <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                    <li><a href="/market" class="text-gray-400 hover:text-white relative pb-1 group">Market Insights <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                    <li><a href="/contact" class="text-gray-400 hover:text-white relative pb-1 group">Contact <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                </ul>
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none" aria-expanded="false" aria-controls="mobile-menu">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </nav>
+            <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-30"></div>
+            <div id="mobile-menu" class="md:hidden fixed top-0 left-0 w-full bg-black z-40 shadow-xl py-6">
+                <ul class="flex flex-col items-center space-y-5 text-lg font-medium">
+                    <li><a href="/" class="text-yellow-500 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Home</a></li>
+                    <li><a href="/products" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Our Products</a></li>
+                    <li><a href="/performance" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Performance</a></li>
+                    <li><a href="/whyus" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Why Choose Us</a></li>
+                    <li><a href="/security" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Security</a></li>
+                    <li><a href="/strategy" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Strategies</a></li>
+                    <li><a href="/market" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Market Insights</a></li>
+                    <li><a href="/contact" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Contact</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <main>
+            <section id="hero" class="relative bg-gradient-to-br from-zinc-950 to-black py-20 md:py-32 lg:py-48 overflow-hidden">
+                <div class="absolute top-40 -left-20 w-80 h-80 md:w-96 md:h-96 bg-yellow-500 rounded-full opacity-15 blur-2xl animate-pulse-slow"></div>
+                <div class="absolute bottom-10 -right-20 w-80 h-80 md:w-96 md:h-96 bg-yellow-500 rounded-full opacity-15 blur-2xl animate-pulse-slow-reverse"></div>
+
+                <div class="relative z-10 container mx-auto px-6 text-center max-w-4xl">
+                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-tight mb-6"
+                        data-aos="fade-up" data-aos-duration="1000">
+                        Empowering the Future of <span class="text-yellow-500">Investments</span>
+                    </h1>
+                    <p class="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed"
+                        data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+                        Harness the power of advanced AI trading systems and automated investment strategies to maximize your portfolio returns with institutional-grade technology.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                        <a href="/contact" class="bg-yellow-500 text-black font-semibold py-3 px-10 rounded-lg shadow-xl hover:bg-yellow-600 hover:scale-105 transition duration-300 transform group"
+                            data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+                            Start Investing
+                            <span class="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+                        </a>
+                        <a href="/whyus" class="border-2 border-yellow-500 text-yellow-500 font-semibold py-3 px-10 rounded-lg hover:bg-yellow-500 hover:text-black hover:scale-105 transition duration-300 transform group"
+                            data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+                            Learn More
+                            <span class="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-24 max-w-5xl mx-auto">
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="zoom-in" data-aos-duration="1000">
+                            <div class="text-yellow-500 text-4xl md:text-5xl font-bold mb-3">99.9%</div>
+                            <div class="text-xl font-semibold text-white mb-2">System Uptime</div>
+                            <p class="text-gray-400 text-base leading-relaxed">Enterprise-grade infrastructure ensuring continuous trading</p>
+                        </div>
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="zoom-in" data-aos-delay="200" data-aos-duration="1000">
+                            <div class="text-yellow-500 text-4xl md:text-5xl font-bold mb-3">$1M+</div>
+                            <div class="text-xl font-semibold text-white mb-2">Assets Under Management</div>
+                            <p class="text-gray-400 text-base leading-relaxed">Trusted by institutional and retail investors worldwide</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="products" class="bg-zinc-900 py-16 md:py-24 lg:py-32">
+                <div class="container mx-auto px-6 text-center max-w-6xl">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+                        data-aos="fade-up" data-aos-duration="1000">Advanced AI Trading Systems</h2>
+                    <p class="text-base md:text-lg text-gray-400 mb-16 max-w-3xl mx-auto leading-relaxed"
+                        data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+                        Our proprietary algorithms analyze market patterns, execute trades with precision, and adapt to changing market conditions in real-time.
+                    </p>
+
+                    <div class="flex flex-col lg:flex-row items-center lg:items-start gap-16">
+                        <div class="flex-1 text-left space-y-10">
+                            <h3 class="text-3xl md:text-4xl font-bold text-white mb-6"
+                                data-aos="fade-right" data-aos-duration="1000">Intelligent Market Analysis</h3>
+                            
+                            <div class="flex items-start space-x-6" data-aos="fade-right" data-aos-delay="200" data-aos-duration="1000">
+                                <div class="bg-yellow-500 rounded-full p-3 flex-shrink-0">
+                                    <img class="w-6 h-6" src="static/home/frame0.svg" alt="Real-time Market Scanning icon" loading="lazy"/>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold text-white mb-2">Real-time Market Scanning</h4>
+                                    <p class="text-gray-400 text-base leading-relaxed">Our AI continuously monitors global markets, identifying opportunities across thousands of assets simultaneously.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-6" data-aos="fade-right" data-aos-delay="300" data-aos-duration="1000">
+                                <div class="bg-yellow-500 rounded-full p-3 flex-shrink-0">
+                                    <img class="w-6 h-6" src="static/home/frame1.svg" alt="Risk Management Protocols icon" loading="lazy"/>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold text-white mb-2">Risk Management Protocols</h4>
+                                    <p class="text-gray-400 text-base leading-relaxed">Advanced algorithms automatically adjust position sizes and implement stop-losses to protect your capital.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-6" data-aos="fade-right" data-aos-delay="400" data-aos-duration="1000">
+                                <div class="bg-yellow-500 rounded-full p-3 flex-shrink-0">
+                                    <img class="w-6 h-6" src="static/home/frame2.svg" alt="Adaptive Learning icon" loading="lazy"/>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold text-white mb-2">Adaptive Learning</h4>
+                                    <p class="text-gray-400 text-base leading-relaxed">Machine learning models continuously improve performance by learning from market behavior and trading outcomes.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1 flex justify-center lg:justify-end"
+                            data-aos="fade-left" data-aos-duration="1000">
+                            <img class="rounded-xl w-full max-w-lg lg:max-w-none shadow-2xl border border-gray-700" src="static/home/image0.png" alt="AI trading system interface" loading="lazy"/>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="performance" class="bg-black py-16 md:py-24 lg:py-32">
+              <div class="container mx-auto px-6 text-center max-w-6xl">
+                  <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+                      data-aos="fade-up" data-aos-duration="1000">Proven Track Record</h2>
+                  <p class="text-base md:text-lg text-gray-400 mb-16 max-w-3xl mx-auto leading-relaxed"
+                      data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+                      Our systematic approach to trading has delivered consistent results across various market conditions and asset classes.
+                  </p>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+                      <div class="p-4 border border-gray-800 rounded-lg hover:border-yellow-500 transition-colors duration-300" data-aos="fade-up" data-aos-duration="1000">
+                          <div class="text-yellow-500 text-5xl md:text-6xl font-bold mb-2">156%</div>
+                          <div class="text-white text-xl font-semibold mb-1">Annual Return (2023)</div>
+                          <p class="text-gray-400 text-sm">Outperforming S&amp;P 500 by 3x</p>
+                      </div>
+                      <div class="p-4 border border-gray-800 rounded-lg hover:border-yellow-500 transition-colors duration-300" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+                          <div class="text-yellow-500 text-5xl md:text-6xl font-bold mb-2">0.89</div>
+                          <div class="text-white text-xl font-semibold mb-1">Sharpe Ratio</div>
+                          <p class="text-gray-400 text-sm">Superior risk-adjusted returns</p>
+                      </div>
+                      <div class="p-4 border border-gray-800 rounded-lg hover:border-yellow-500 transition-colors duration-300" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+                          <div class="text-yellow-500 text-5xl md:text-6xl font-bold mb-2">12.3%</div>
+                          <div class="text-white text-xl font-semibold mb-1">Max Drawdown</div>
+                          <p class="text-gray-400 text-sm">Minimal downside risk exposure</p>
+                      </div>
+                      <div class="p-4 border border-gray-800 rounded-lg hover:border-yellow-500 transition-colors duration-300" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
+                          <div class="text-yellow-500 text-5xl md:text-6xl font-bold mb-2">94.7%</div>
+                          <div class="text-white text-xl font-semibold mb-1">Win Rate</div>
+                          <p class="text-gray-400 text-sm">Consistently profitable trades</p>
+                      </div>
+                  </div>
+                  </div>
+
+              <div class="container mx-auto px-6 max-w-7xl">
+                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-8 lg:p-12 shadow-xl text-left"
+                    data-aos="zoom-in" data-aos-duration="1000" id="trading-report-container">
+                    
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                        <div>
+                            <h2 class="text-white text-3xl md:text-4xl font-bold mb-2">Trading Report</h2>
+                            <p class="text-gray-400 text-base md:text-lg max-w-2xl leading-relaxed">
+                                Comprehensive analysis of real trade performance and revenue metrics
+                            </p>
+                        </div>
+                        <div class="flex items-center text-gray-400 text-sm mt-4 md:mt-0">
+                            <span class="relative flex h-3 w-3 mr-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                            </span>
+                            Live Data
+                        </div>
+                    </div>
+
+                    <!-- Summary Cards (Dynamically Updated) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                        <div class="bg-yellow-500 rounded-xl p-6 shadow-lg text-left flex flex-col justify-between relative">
+                            <h3 class="text-black text-base font-semibold mb-2">Net Profit</h3>
+                            <div id="net-profit" class="text-black text-4xl font-bold mb-1">$13,560.00</div>
+                            <p class="text-green-600 text-sm font-semibold">+18.7% this period</p>
+                            <p class="text-black text-xs mt-2">Trading Range: Jan 15 - Jan 31, 2024</p>
+                            <div class="absolute top-4 right-4 text-black opacity-80">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-6 w-6" viewBox="0 0 16 16">
+                                    <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M5 4.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M5 7a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5A.5.5 0 0 1 5 7m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M5 12a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="bg-yellow-500 rounded-xl p-6 shadow-lg text-left flex flex-col justify-between relative">
+                            <h3 class="text-black text-base font-semibold mb-2">Gross Profit</h3>
+                            <div id="gross-profit" class="text-black text-4xl font-bold mb-1">$16,300.00</div>
+                            <p class="text-black text-sm font-semibold mt-auto">From winning trades</p>
+                            <div class="absolute top-4 right-4 text-black opacity-80">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-6 w-6" viewBox="0 0 16 16">
+                                    <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M5 4.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M5 7a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5A.5.5 0 0 1 5 7m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M5 12a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="bg-yellow-500 rounded-xl p-6 shadow-lg text-left flex flex-col justify-between relative">
+                            <h3 class="text-black text-base font-bold mb-2">Gross Loss</h3>
+                            <div id="gross-loss" class="text-black text-4xl font-bold mb-1">-$2,740.00</div>
+                            <p class="text-black text-sm font-semibold mt-auto">From losing trades</p>
+                            <div class="absolute top-4 right-4 text-red-600 opacity-80">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-6 w-6" viewBox="0 0 16 16">
+                                    <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M5 4.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M5 7a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5A.5.5 0 0 1 5 7m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M5 12a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="bg-yellow-500 rounded-xl p-6 shadow-lg text-left flex flex-col justify-between relative">
+                            <h3 class="text-black text-base font-semibold mb-3">Long vs Short</h3>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-black text-base font-semibold">Long:</span>
+                                <span id="long-value" class="text-black text-xl font-bold">$10,500.00</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-black text-base font-semibold">Short:</span>
+                                <span id="short-value" class="text-black text-xl font-bold">$3,060.00</span>
+                            </div>
+                            <div class="absolute top-4 right-4 text-black opacity-80">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-6 w-6" viewBox="0 0 16 16">
+                                    <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M5 4.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M5 7a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5A.5.5 0 0 1 5 7m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M5 12a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 mt-12">
+                        <h2 class="text-white-500 text-2xl md:text-3xl font-bold mb-4 md:mb-0">Trade Analysis</h2>
+                        <button id="reset-button" class="bg-gray-400 hover:bg-gray-500 transition-colors duration-200 rounded-lg px-4 py-2 flex items-center justify-center">
+                            <span class="text-black text-sm font-semibold">Reset</span>
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-lg border border-gray-700 mb-8 relative">
+                        <!-- Loading spinner and error message container -->
+                        <div id="loading-overlay" class="absolute inset-0 bg-zinc-900 bg-opacity-70 flex items-center justify-center rounded-lg z-10 hidden">
+                            <div class="loader"></div>
+                            <p class="text-white ml-4">Loading data...</p>
+                        </div>
+                        <div id="error-message" class="absolute inset-0 bg-red-900 bg-opacity-70 flex items-center justify-center rounded-lg z-10 hidden">
+                            <p class="text-white font-semibold p-4 text-center"></p>
+                        </div>
+                        
+                        <table class="min-w-full text-left text-sm text-gray-300" id="trade-analysis-table">
+                            <thead class="bg-zinc-800 text-gray-400 uppercase tracking-wider whitespace-nowrap">
+                                <tr>
+                                    <th class="py-3 px-4">Trade #</th>
+                                    <th class="py-3 px-4">Type</th>
+                                    <th class="py-3 px-4">Signal</th>
+                                    <th class="py-3 px-4">Date/Time</th>
+                                    <th class="py-3 px-4">Profit USD</th>
+                                    <th class="py-3 px-4">Cumulative</th>
+                                    <th class="py-3 px-4">Drawdown</th>
+                                    <th class="py-3 px-4">Win Rate</th>
+                                    <th class="py-3 px-4">Risk/Reward</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-700 whitespace-nowrap" id="trade-table-body">
+                                <!-- Dynamic content will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                        <div class="bg-yellow-500 rounded-lg p-4 shadow text-left">
+                            <h3 class="text-black text-sm font-bold mb-1">Total Profit</h3> <!-- Changed from Week Profit -->
+                            <p id="total-profit" class="text-green-600 text-xl font-bold">$0.00</p> <!-- Changed ID -->
+                        </div>
+                        <div class="bg-yellow-500 rounded-lg p-4 shadow text-left">
+                            <h3 class="text-black text-sm font-bold mb-1">Avg Trade</h3>
+                            <p id="avg-trade" class="text-green-600 text-xl font-bold">$0.00</p>
+                        </div>
+                        <div class="bg-yellow-500 rounded-lg p-4 shadow text-left">
+                            <h3 class="text-black text-sm font-bold mb-1">Max Drawdown</h3>
+                            <p id="max-drawdown" class="text-red-500 text-xl font-bold">$0.00</p>
+                        </div>
+                        <div class="bg-yellow-500 rounded-lg p-4 shadow text-left">
+                            <h3 class="text-black text-sm font-bold mb-1">Total Trades</h3>
+                            <p id="total-trades" class="text-indigo-700 text-xl font-bold">0</p>
+                        </div>
+                        <div class="bg-yellow-500 rounded-lg p-4 shadow text-left">
+                            <h3 class="text-black text-sm font-bold mb-1">Win Rate</h3>
+                            <p id="win-rate" class="text-green-600 text-xl font-bold">0.0%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+            <section id="contact" class="bg-zinc-900 py-16 md:py-24 lg:py-32">
+                <div class="container mx-auto px-6">
+                    <div class="bg-yellow-500 rounded-xl p-8 md:p-16 lg:p-20 text-center shadow-2xl">
+                        <h2 class="text-3xl md:text-5xl font-extrabold text-black mb-6 leading-tight"
+                            data-aos="fade-up" data-aos-duration="1000">Ready to Transform Your Investment Strategy?</h2>
+                        <p class="text-base md:text-lg text-gray-800 max-w-3xl mx-auto mb-12 leading-relaxed"
+                            data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+                            Join thousands of investors who trust Golden Ark Capitals to grow their wealth through cutting-edge AI technology and proven trading strategies.
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                            <a href="/contact" class="bg-black text-yellow-500 font-semibold py-3 px-10 rounded-lg shadow-md hover:bg-gray-800 hover:scale-105 transition duration-300 transform group"
+                                data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+                                Get Started Today
+                                <span class="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+                            </a>
+                            <a href="/contact" class="border-2 border-black text-black font-semibold py-3 px-10 rounded-lg hover:bg-black hover:text-yellow-500 hover:scale-105 transition duration-300 transform group"
+                                data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+                                Schedule Consultation
+                                <span class="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="why-choose-us" class="bg-black py-16 md:py-24 lg:py-32">
+                <div class="container mx-auto px-6 text-center max-w-6xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-8"
+                        data-aos="fade-up" data-aos-duration="1000">Quick Intro</h2>
+                    <p class="text-base md:text-lg text-gray-400 mb-16 max-w-3xl mx-auto leading-relaxed"
+                        data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+                        Golden Ark Capitals is a cutting-edge investment firm using AI and automated bots for trading in global financial markets. Our advanced algorithms work 24/7 to identify opportunities and execute trades with precision.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="fade-up" data-aos-duration="1000">
+                            <div class="bg-yellow-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                                <span class="text-black text-3xl">🤖</span>
+                            </div>
+                            <h3 class="text-white text-xl font-semibold mb-3">AI-powered bots</h3>
+                            <p class="text-gray-400 text-base leading-relaxed">Advanced algorithms for automated trading</p>
+                        </div>
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+                            <div class="bg-yellow-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                                <span class="text-black text-3xl">🔄</span>
+                            </div>
+                            <h3 class="text-white text-xl font-semibold mb-3">24/7 monitoring</h3>
+                            <p class="text-gray-400 text-base leading-relaxed">Continuous market surveillance and execution</p>
+                        </div>
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+                            <div class="bg-yellow-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                                <span class="text-black text-3xl">📈</span>
+                            </div>
+                            <h3 class="text-white text-xl font-semibold mb-3">Consistent monthly returns</h3>
+                            <p class="text-gray-400 text-base leading-relaxed">Proven track record of stable performance</p>
+                        </div>
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
+                            <div class="bg-yellow-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                                <span class="text-black text-3xl">🔒</span>
+                            </div>
+                            <h3 class="text-white text-xl font-semibold mb-3">Secure and compliant systems</h3>
+                            <p class="text-gray-400 text-base leading-relaxed">Bank-grade security and regulatory compliance</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="bg-black py-10 md:py-16 border-t border-gray-800">
+            <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 GoldenArk Capitals. All rights reserved.</p>
+                <div class="mt-4 space-x-4">
+                    <a href="#" class="hover:text-white transition-colors duration-200">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors duration-200">Terms of Service</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS with desired settings (removed duplicate call)
+        AOS.init({
+            once: true, /* Whether animation should happen only once - while scrolling down */
+            mirror: false, /* Whether elements should animate out of sight once they've scrolled past */
+            duration: 800, /* values from 0 to 3000, with step 50ms */
+            easing: 'ease-out-cubic', /* default easing for AOS animations */
+        });
+
+        // JavaScript for Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        function toggleMobileMenu() {
+            const isMenuCurrentlyClosed = !mobileMenu.classList.contains('is-open');
+            mobileMenu.classList.toggle('is-open', isMenuCurrentlyClosed);
+            menuOverlay.classList.toggle('is-open', isMenuCurrentlyClosed);
+            mobileMenuButton.setAttribute('aria-expanded', isMenuCurrentlyClosed);
+            document.body.style.overflow = isMenuCurrentlyClosed ? 'hidden' : '';
+        }
+
+        mobileMenuButton.addEventListener('click', toggleMobileMenu);
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (mobileMenu.classList.contains('is-open')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        menuOverlay.addEventListener('click', toggleMobileMenu);
+
+
+        // --- Live Trading Dashboard Logic ---
+        let tradingData = []; // Stores all trade rows (now dynamic)
+        let reportData = [];  // Stores all summary report rows (now dynamic)
+        let currentSlide = 0; // Current slide index
+        let slideDisplayInterval;    // To hold the interval ID for auto-scrolling through slides
+        let dataRefreshInterval; // To hold the interval ID for periodically fetching new data
+
+        // Configure data refresh interval (e.g., every 30 seconds)
+        const REFRESH_INTERVAL_MS = 30000; // 30 seconds
+        const SLIDE_INTERVAL_MS = 5000;    // 5 seconds for slide display
+
+        const tradeTableBody = document.getElementById('trade-table-body');
+        const tradingReportContainer = document.getElementById('trading-report-container');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const errorMessageDiv = document.getElementById('error-message');
+        const resetTradeButton = document.getElementById('reset-button');
+
+        // Summary elements (Net Profit, Gross Profit, Gross Loss, Long/Short are fixed in HTML)
+        const totalProfitEl = document.getElementById('total-profit'); // Changed variable name and ID
+        const avgTradeEl = document.getElementById('avg-trade');
+        const maxDrawdownEl = document.getElementById('max-drawdown');
+        const totalTradesEl = document.getElementById('total-trades');
+        const winRateEl = document.getElementById('win-rate');
+
+        // Helper function to remove currency symbols and parse to float
+        function parseCurrencyToFloat(str) {
+            // Handle cases where string might be empty or null
+            if (!str) return 0;
+            // Remove currency symbols, commas, and then parse to float
+            const cleanedStr = String(str).replace(/[^0-9.-]+/g,"");
+            return parseFloat(cleanedStr);
+        }
+
+        // Function to show error message
+        function showErrorMessage(message) {
+            loadingOverlay.classList.add('hidden');
+            errorMessageDiv.classList.remove('hidden');
+            errorMessageDiv.querySelector('p').textContent = message;
+        }
+
+        // Function to render a specific slide
+        function renderSlide(slideIndex) {
+            if (!reportData || reportData.length === 0) {
+                console.warn("No report data available to render slides.");
+                return;
+            }
+            if (slideIndex < 0 || slideIndex >= reportData.length) {
+                console.error("Invalid slide index:", slideIndex);
+                // Reset to first slide if current slide is out of bounds due to data change
+                currentSlide = 0;
+                slideIndex = 0;
+            }
+
+            tradeTableBody.innerHTML = ''; // Clear existing rows
+
+            const slide = reportData[slideIndex];
+            if (slide && slide.trades) {
+                slide.trades.forEach(trade => {
+                    // Determine text color for Win Rate
+                    const winRateTextColorClass = trade['Win Rate'] === 'Win' ? 'text-green-500' : (trade['Win Rate'] === 'Loss' ? 'text-red-500' : 'text-gray-400');
+
+                    const row = document.createElement('tr');
+                    row.className = 'hover:bg-zinc-700 transition-colors duration-200';
+                    row.innerHTML = `
+                        <td class="py-3 px-4">${trade['Trade #']}</td>
+                        <td class="py-3 px-4">
+                            <span class="${trade.Type === 'Short' ? 'bg-red-500' : 'bg-green-600'} rounded-full px-3 py-1 text-xs font-medium text-white">
+                                ${trade.Type}
+                            </span>
+                        </td>
+                        <td class="py-3 px-4">
+                            <span class="bg-indigo-700 rounded-full px-3 py-1 text-xs font-medium text-white">
+                                ${trade.Signal}
+                            </span>
+                        </td>
+                        <td class="py-3 px-4 text-gray-400">${trade['Date/Time']}</td>
+                        <td class="py-3 px-4 ${parseFloat(trade['Profit USD']) >= 0 ? 'text-green-500' : 'text-red-500'} font-medium">
+                            $${Math.abs(parseFloat(trade['Profit USD'])).toFixed(2)}
+                        </td>
+                        <td class="py-3 px-4 text-white font-medium">$${parseFloat(trade.Cumulative).toFixed(2)}</td>
+                        <td class="py-3 px-4 text-red-500 font-medium">$${parseFloat(trade.Drawdown).toFixed(2)}</td>
+                        <td class="py-3 px-4 ${winRateTextColorClass} font-medium">
+                            ${trade['Win Rate']}
+                        </td>
+                        <td class="py-3 px-4 text-white">${trade['Risk/Reward']}</td>
+                    `;
+                    tradeTableBody.appendChild(row);
+                });
+
+                // Update summary statistics that are still dynamic (from report.csv)
+                const summary = slide.summary;
+
+                // --- Apply conditional coloring for Total Profit (formerly Week Profit) ---
+                const totalProfitValue = parseCurrencyToFloat(summary['Total Profit']); // Changed key to 'Total Profit'
+                totalProfitEl.textContent = summary['Total Profit'] || '$0.00';
+                totalProfitEl.classList.remove('text-green-600', 'text-red-500'); // Clear existing
+                if (totalProfitValue >= 0) {
+                    totalProfitEl.classList.add('text-green-600');
+                } else {
+                    totalProfitEl.classList.add('text-red-500');
+                }
+
+                // --- Apply conditional coloring for Avg Trade ---
+                const avgTradeValue = parseCurrencyToFloat(summary['Avg Trade']);
+                avgTradeEl.textContent = summary['Avg Trade'] || '$0.00';
+                avgTradeEl.classList.remove('text-green-600', 'text-red-500'); // Clear existing
+                if (avgTradeValue >= 0) {
+                    avgTradeEl.classList.add('text-green-600');
+                } else {
+                    avgTradeEl.classList.add('text-red-500');
+                }
+
+                maxDrawdownEl.textContent = summary['Max Drawdown'] || '$0.00';
+                totalTradesEl.textContent = summary['Total Trades'] || '0';
+                winRateEl.textContent = summary['Win Rate'] || '0.0%';
+
+                // Net Profit, Gross Profit, Gross Loss, Long vs Short are currently fixed in the HTML
+            }
+        }
+
+        // Function to advance to the next slide for display
+        function showNextDisplaySlide() {
+            if (reportData.length > 0) {
+                currentSlide = (currentSlide + 1) % reportData.length;
+                renderSlide(currentSlide);
+            }
+        }
+
+        // Function to start auto-scrolling through slides
+        function startSlideDisplayInterval() {
+            stopSlideDisplayInterval(); // Clear any existing interval
+            if (reportData.length > 1) { // Only auto-scroll if more than one slide
+                slideDisplayInterval = setInterval(showNextDisplaySlide, SLIDE_INTERVAL_MS); // 5 seconds delay
+            }
+        }
+
+        // Function to stop auto-scrolling through slides
+        function stopSlideDisplayInterval() {
+            clearInterval(slideDisplayInterval);
+        }
+
+        // Fetch data from Flask backend
+        async function fetchTradingData() {
+            stopSlideDisplayInterval(); // Pause slide rotation during data fetch
+            loadingOverlay.classList.remove('hidden');
+            errorMessageDiv.classList.add('hidden'); // Hide any previous error
+
+            try {
+                const response = await fetch(`${window.location.origin}/api/trading_data`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to fetch trading data.');
+                }
+
+                if (data.slides && Array.isArray(data.slides) && data.slides.length > 0) {
+                    reportData = data.slides;
+                    
+                    if (currentSlide >= reportData.length) {
+                        currentSlide = 0;
+                    }
+                    renderSlide(currentSlide);
+                    startSlideDisplayInterval();
+                } else {
+                    showErrorMessage("No trade data found. The CSV files might be empty or incorrectly formatted.");
+                }
+            } catch (error) {
+                console.error("Error fetching trading data:", error);
+                showErrorMessage(`Error loading trading data: ${error.message}`);
+            } finally {
+                loadingOverlay.classList.add('hidden');
+            }
+        }
+
+        // Event listeners for pause/resume on hover/touch for SLIDE DISPLAY
+        if (tradingReportContainer) {
+            tradingReportContainer.addEventListener('mouseenter', stopSlideDisplayInterval);
+            tradingReportContainer.addEventListener('mouseleave', startSlideDisplayInterval);
+            // For mobile touch
+            tradingReportContainer.addEventListener('touchstart', stopSlideDisplayInterval);
+            tradingReportContainer.addEventListener('touchend', startSlideDisplayInterval);
+        }
+
+        // Event listener for Reset button
+        if (resetTradeButton) {
+            resetTradeButton.addEventListener('click', () => {
+                currentSlide = 0;
+                renderSlide(currentSlide);
+                startSlideDisplayInterval();
+            });
+        }
+
+        // --- Main Data Fetching Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchTradingData(); // Initial fetch when the page loads
+            dataRefreshInterval = setInterval(fetchTradingData, REFRESH_INTERVAL_MS);
+        });
+
+        // Clear intervals when leaving the page to prevent memory leaks (optional, but good practice)
+        window.addEventListener('beforeunload', () => {
+            clearInterval(slideDisplayInterval);
+            clearInterval(dataRefreshInterval);
+        });
+    </script>
+</body>
+</html>

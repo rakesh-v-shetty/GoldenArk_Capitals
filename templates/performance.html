@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoldenArk Capitals - Performance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* Custom styles to ensure Inter font is applied and general resets */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Override Tailwind's default to make sure links within sections stand out on hover */
+        a {
+            transition: color 0.3s ease;
+        }
+        /* For mobile menu, ensuring it slides down smoothly */
+        /* Replaced 'hidden' utility with 'is-open' and 'is-closed' for smooth transitions */
+        #mobile-menu {
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out, visibility 0.3s ease-out;
+            transform: translateY(-100%); /* Start hidden */
+            opacity: 0; /* Start invisible */
+            visibility: hidden; /* Hide element completely for accessibility */
+            pointer-events: none; /* Prevent interaction when hidden */
+        }
+        #mobile-menu.is-open {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* Overlay for mobile menu */
+        #menu-overlay {
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 30; /* Adjusted z-index relative to mobile menu */
+            transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+            opacity: 0; /* Start invisible */
+            visibility: hidden; /* Hide element completely */
+            pointer-events: none; /* Prevent interaction when hidden */
+        }
+        #menu-overlay.is-open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* Keyframe animations for subtle background pulses - from home.html */
+        @keyframes pulse-slow {
+            0% { transform: scale(1) translateX(0); opacity: 0.2; }
+            50% { transform: scale(1.05) translateX(10px); opacity: 0.25; }
+            100% { transform: scale(1) translateX(0); opacity: 0.2; }
+        }
+
+        @keyframes pulse-slow-reverse {
+            0% { transform: scale(1) translateX(0); opacity: 0.2; }
+            50% { transform: scale(1.05) translateX(-10px); opacity: 0.25; }
+            100% { transform: scale(1) translateX(0); opacity: 0.2; }
+        }
+
+        .animate-pulse-slow {
+            animation: pulse-slow 8s infinite ease-in-out;
+        }
+
+        .animate-pulse-slow-reverse {
+            animation: pulse-slow-reverse 8s infinite ease-in-out;
+        }
+
+        /* Custom scrollbar for better aesthetics, matching dark theme */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #111; /* Darker track */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #444; /* Dark gray thumb */
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Lighter gray on hover */
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white min-h-screen antialiased">
+    <div class="relative overflow-hidden">
+
+        <header class="bg-black py-4 border-b border-gray-800 shadow-lg relative z-50">
+            <nav class="container mx-auto px-4 flex justify-between items-center">
+                <a href="/" class="text-yellow-500 text-2xl md:text-3xl font-extrabold tracking-tight hover:text-yellow-400 transition-colors duration-300">GoldenArk Capitals</a>
+                <ul class="hidden md:flex space-x-8 text-sm md:text-base font-medium">
+                    <li><a href="/" class="text-gray-400 hover:text-white relative pb-1 group">Home <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                    <li><a href="/products" class="text-gray-400 hover:text-white relative pb-1 group">Our Products <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                    <li><a href="/performance" class="text-yellow-500 relative pb-1 group">Performance <span class="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 scale-x-100 group-hover:scale-x-75 transition-transform duration-300"></span></a></li>
+                    <li><a href="/whyus" class="text-gray-400 hover:text-white relative pb-1 group">Why Choose Us <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                    <li><a href="/security" class="text-gray-400 hover:text-white relative pb-1 group">Security <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                    <li><a href="/strategy" class="text-gray-400 hover:text-white relative pb-1 group">Strategies <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                    <li><a href="/market" class="text-gray-400 hover:text-white relative pb-1 group">Market Insights <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                    <li><a href="/contact" class="text-gray-400 hover:text-white relative pb-1 group">Contact <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span></a></li>
+                </ul>
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none" aria-expanded="false" aria-controls="mobile-menu">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </nav>
+            <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-30"></div>
+            <div id="mobile-menu" class="md:hidden fixed top-0 left-0 w-full bg-black z-40 shadow-xl py-6">
+                <ul class="flex flex-col items-center space-y-5 text-lg font-medium">
+                    <li><a href="/" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Home</a></li>
+                    <li><a href="/products" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Our Products</a></li>
+                    <li><a href="/performance" class="text-yellow-500 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Performance</a></li>
+                    <li><a href="/whyus" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Why Choose Us</a></li>
+                    <li><a href="/security" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Security</a></li>
+                    <li><a href="/strategy" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Strategies</a></li>
+                    <li><a href="/market" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Market Insights</a></li>
+                    <li><a href="/contact" class="text-gray-400 hover:text-white transition-colors duration-200 py-2 block w-full text-center">Contact</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <main>
+            <section id="performance-top" class="relative bg-gradient-to-br from-zinc-950 to-black py-20 md:py-32 lg:py-48 overflow-hidden">
+                <div class="absolute top-40 -left-20 w-80 h-80 md:w-96 md:h-96 bg-yellow-500 rounded-full opacity-15 blur-2xl animate-pulse-slow"></div>
+                <div class="absolute bottom-10 -right-20 w-80 h-80 md:w-96 md:h-96 bg-yellow-500 rounded-full opacity-15 blur-2xl animate-pulse-slow-reverse"></div>
+
+                <div class="relative z-10 container mx-auto px-6 text-center max-w-4xl">
+                    <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-tight mb-6"
+                        data-aos="fade-up" data-aos-duration="1000">
+                        Proven <span class="text-yellow-500">Returns</span>
+                    </h1>
+                    <p class="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed"
+                        data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+                        Track record of consistent monthly returns through advanced AI-powered trading algorithms with transparent performance metrics and scalable investment options.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                        <a href="#monthly-roi" class="bg-yellow-500 text-black font-semibold py-3 px-10 rounded-lg shadow-xl hover:bg-yellow-600 hover:scale-105 transition duration-300 transform group"
+                            data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+                            View Performance
+                            <span class="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+                        </a>
+                        <a href="#investment-plans" class="border-2 border-yellow-500 text-yellow-500 font-semibold py-3 px-10 rounded-lg hover:bg-yellow-500 hover:text-black hover:scale-105 transition duration-300 transform group"
+                            data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+                            Investment Plans
+                            <span class="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="consistent-returns" class="bg-zinc-900 py-16 md:py-24 lg:py-32">
+                <div class="container mx-auto px-6 text-center max-w-6xl">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6" data-aos="fade-up"
+                        data-aos-duration="1000">Consistent Monthly Returns</h2>
+                    <p class="text-base md:text-lg text-gray-400 mb-16 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up"
+                        data-aos-delay="200" data-aos-duration="1000">
+                        Our AI-powered trading systems deliver stable, computed returns after each trading cycle with full
+                        transparency and real-time monitoring.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="zoom-in" data-aos-duration="1000">
+                            <div class="flex flex-col items-center space-y-4">
+                                <div class="bg-yellow-500 rounded-full w-14 h-14 flex items-center justify-center flex-shrink-0">
+                                    <span class="text-black text-3xl">📈</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-4xl font-bold text-yellow-500">247,891+</h3>
+                                    <p class="text-white text-lg font-semibold">Successful Trades</p>
+                                    <p class="text-gray-400 text-sm">Executed across global markets</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="zoom-in" data-aos-delay="100" data-aos-duration="1000">
+                            <div class="flex flex-col items-center space-y-4">
+                                <div class="bg-yellow-500 rounded-full w-14 h-14 flex items-center justify-center flex-shrink-0">
+                                    <span class="text-black text-3xl">🎯</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-4xl font-bold text-yellow-500">98.7%</h3>
+                                    <p class="text-white text-lg font-semibold">Trade Accuracy</p>
+                                    <p class="text-gray-400 text-sm">Precision execution rate</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="zoom-in" data-aos-delay="200" data-aos-duration="1000">
+                            <div class="flex flex-col items-center space-y-4">
+                                <div class="bg-yellow-500 rounded-full w-14 h-14 flex items-center justify-center flex-shrink-0">
+                                    <span class="text-black text-3xl">💰</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-4xl font-bold text-yellow-500">7-8%</h3>
+                                    <p class="text-white text-lg font-semibold">Average Monthly ROI</p>
+                                    <p class="text-gray-400 text-sm">Consistent performance metrics</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="performance-highlights" class="bg-black py-16 md:py-24 lg:py-32">
+                <div class="container mx-auto px-6 text-center max-w-6xl">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-16"
+                        data-aos="fade-up" data-aos-duration="1000">Performance Highlights</h2>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="fade-up" data-aos-duration="1000">
+                            <div class="text-yellow-500 text-5xl md:text-6xl font-bold mb-2">99.7%</div>
+                            <div class="text-white text-xl font-semibold">System Uptime</div>
+                        </div>
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+                            <div class="text-yellow-500 text-5xl md:text-6xl font-bold mb-2">0.2ms</div>
+                            <div class="text-white text-xl font-semibold">Avg Execution</div>
+                        </div>
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+                            <div class="text-yellow-500 text-5xl md:text-6xl font-bold mb-2">24/7</div>
+                            <div class="text-white text-xl font-semibold">Market Coverage</div>
+                        </div>
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 text-center shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
+                            <div class="text-yellow-500 text-5xl md:text-6xl font-bold mb-2">15+</div>
+                            <div class="text-white text-xl font-semibold">Global Exchanges</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="monthly-roi" class="bg-zinc-900 py-16 md:py-24 lg:py-32">
+                <div class="container mx-auto px-6 text-center max-w-6xl">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-16"
+                        data-aos="fade-up" data-aos-duration="1000">12-Month ROI Trend</h2>
+
+                    <div class="bg-zinc-800 border border-gray-700 rounded-xl p-5 shadow-md w-full">
+                        <canvas id="roiTrendChart"></canvas>
+                    </div>
+
+                </div>
+            </section>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const ctx = document.getElementById('roiTrendChart').getContext('2d');
+
+                    const roiData = {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        datasets: [{
+                            label: 'Monthly ROI',
+                            data: [28.3, 31.2, 26.8, 35.7, 29.4, 39.1, 33.6, 37.2, 32.8, 36.4, 34.9, 38.5],
+                            borderColor: 'rgb(250, 204, 21)', // yellow-500 from Tailwind
+                            backgroundColor: 'rgba(250, 204, 21, 0.2)',
+                            tension: 0.3, // Makes the line slightly curved for a smoother look
+                            fill: true,
+                            pointBackgroundColor: 'rgb(250, 204, 21)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgb(250, 204, 21)'
+                        }]
+                    };
+
+                    const roiChart = new Chart(ctx, {
+                        type: 'line',
+                        data: roiData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false, // Allows you to control the size with CSS
+                            plugins: {
+                                legend: {
+                                    display: false // We only have one dataset, so no need for a legend
+                                },
+                                title: {
+                                    display: true,
+                                    color: '#ffffff', // White title color
+                                    font: {
+                                        size: 18
+                                    }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return context.dataset.label + ': ' + context.parsed.y + '%';
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Month',
+                                        color: '#a0aec0' // gray-400
+                                    },
+                                    grid: {
+                                        color: '#4a5568' // gray-700
+                                    },
+                                    ticks: {
+                                        color: '#cbd5e0' // Light gray for tick labels
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'ROI (%)',
+                                        color: '#a0aec0' // gray-400
+                                    },
+                                    grid: {
+                                        color: '#4a5568' // gray-700
+                                    },
+                                    ticks: {
+                                        color: '#cbd5e0', // Light gray for tick labels
+                                        callback: function(value) {
+                                            return value + '%';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
+
+            <section id="investment-plans" class="bg-black py-16 md:py-24 lg:py-32">
+                <div class="container mx-auto px-6 text-center max-w-7xl">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+                        data-aos="fade-up" data-aos-duration="1000">Scalable Investment Options</h2>
+                    <p class="text-base md:text-lg text-gray-400 mb-16 max-w-3xl mx-auto leading-relaxed"
+                        data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+                        Choose from our range of investment plans designed for different risk appetites and capital sizes, all powered by the same advanced AI technology.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-stretch">
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 flex flex-col justify-between shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="fade-up" data-aos-duration="1000">
+                            <div>
+                                <div class="bg-yellow-500 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-6 flex-shrink-0">
+                                    <span class="text-black text-3xl">⚖️</span>
+                                </div>
+                                <h3 class="text-2xl font-semibold text-white mb-3">Constant Plan</h3>
+                                <p class="text-gray-400 text-base leading-relaxed mb-8">
+                                    A stable, low-risk strategy using AI trading bots to generate steady annual returns. Ideal for preserving capital with modest growth through compounding.
+                                </p>
+                                <ul class="text-left text-gray-300 text-base space-y-3 mb-10">
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-500 mr-2 mt-0.5">&#10003;</span>
+                                        <div>Min. Investment: <span class="font-semibold text-white ml-1">$100,000</span></div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-500 mr-2 mt-0.5">&#10003;</span>
+                                        <div>Expected Yearly ROI Over Compounding: <span class="font-semibold text-white ml-1">50%</span></div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-500 mr-2 mt-0.5">&#10003;</span>
+                                        <div>Risk Level: <span class="font-semibold text-white ml-1">Low</span></div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-500 mr-2 mt-0.5">&#10003;</span>
+                                        <div>Strategy Focus: <span class="font-semibold text-white ml-1">AI Trading Bots</span></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="/contact" class="bg-yellow-500 text-black font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-yellow-600 hover:scale-105 transition duration-300 transform w-full text-center">
+                                Schedule Consultation
+                            </a>
+                        </div>
+
+                        <div class="bg-zinc-800 border-2 border-yellow-500 rounded-xl p-8 flex flex-col justify-between shadow-2xl scale-[1.03] relative"
+                            data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+                            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-500 text-black text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Most Popular</span>
+                            <div>
+                                <div class="bg-yellow-500 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-6 flex-shrink-0">
+                                    <span class="text-black text-3xl">🚀</span>
+                                </div>
+                                <h3 class="text-2xl font-semibold text-white mb-3">Aggressive Plan</h3>
+                                <p class="text-gray-400 text-base leading-relaxed mb-8">
+                                    Designed for growth-oriented investors, this plan uses AI bots to deliver consistent monthly returns with minimal risk exposure.
+                                </p>
+                                <ul class="text-left text-gray-300 text-base space-y-3 mb-10">
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-500 mr-2 mt-0.5">&#10003;</span>
+                                        <div>Min. Investment: <span class="font-semibold text-white ml-1">$50,000</span></div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-500 mr-2 mt-0.5">&#10003;</span>
+                                        <div>Expected Monthly ROI: <span class="font-semibold text-white ml-1">4-5%</span></div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-500 mr-2 mt-0.5">&#10003;</span>
+                                        <div>Risk Level: <span class="font-semibold text-white ml-1">Negligible</span></div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-500 mr-2 mt-0.5">&#10003;</span>
+                                        <div>Strategy Focus: <span class="font-semibold text-white ml-1">AI Trading Bots</span></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="/contact" class="bg-black text-yellow-500 font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-gray-800 hover:scale-105 transition duration-300 transform w-full text-center">
+                                Schedule Consultation
+                            </a>
+                        </div>
+
+                        <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 flex flex-col justify-between shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                            data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+                            <div>
+                                <div class="bg-yellow-500 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-6 flex-shrink-0">
+                                    <span class="text-black text-3xl">🛡️</span>
+                                </div>
+                                <h3 class="text-2xl font-semibold text-white mb-3">Conservative Plan</h3>
+                                <p class="text-gray-400 text-base leading-relaxed mb-8">
+                                    A high-return plan powered by AI trading bots, tailored for investors comfortable with higher risk and market volatility.
+                                </p>
+                                <br>
+                                <ul class="text-left text-gray-300 text-base space-y-3 mb-10">
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-500 mr-2 mt-0.5">&#10003;</span>
+                                        <div>Min. Investment: <span class="font-semibold text-white ml-1">$5,000</span></div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-500 mr-2 mt-0.5">&#10003;</span>
+                                        <div>Expected Monthly ROI: <span class="font-semibold text-white ml-1">7-8%</span></div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-500 mr-2 mt-0.5">&#10003;</span>
+                                        <div>Risk Level: <span class="font-semibold text-white ml-1">High Risk</span></div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-yellow-500 mr-2 mt-0.5">&#10003;</span>
+                                        <div>Strategy Focus: <span class="font-semibold text-white ml-1">AI Trading Bots</span></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="/contact" class="bg-yellow-500 text-black font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-yellow-600 hover:scale-105 transition duration-300 transform w-full text-center">
+                                Schedule Consultation
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="mt-20">
+                        <h3 class="text-2xl md:text-3xl font-bold text-white mb-6"
+                            data-aos="fade-up" data-aos-duration="1000">Custom Enterprise Solutions</h3>
+                        <p class="text-base md:text-lg text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed"
+                            data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+                            For institutional investors and high-net-worth individuals, we offer custom trading solutions with dedicated account management and personalized strategy development.
+                        </p>
+                        <a href="/contact" class="border-2 border-yellow-500 text-yellow-500 font-semibold py-3 px-10 rounded-lg hover:bg-yellow-500 hover:text-black hover:scale-105 transition duration-300 transform group"
+                            data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+                            Schedule Consultation
+                            <span class="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="risk-disclosure" class="bg-zinc-900 py-16 md:py-24 lg:py-32">
+                <div class="container mx-auto px-6 max-w-4xl">
+                    <div class="bg-zinc-800 border border-gray-700 rounded-xl p-8 md:p-12 shadow-xl"
+                        data-aos="fade-up" data-aos-duration="1000">
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div class="bg-yellow-500 rounded-full w-14 h-14 flex items-center justify-center flex-shrink-0">
+                                <img class="w-8 h-8" src="static/performance/frame0.svg" alt="Disclosure icon" loading="lazy"/>
+                            </div>
+                            <h2 class="text-2xl md:text-3xl font-semibold text-white">Risk Disclosure & Performance Notes</h2>
+                        </div>
+                        <h3 class="text-xl font-medium text-white mb-4">Transparent Performance Tracking</h3>
+                        <p class="text-gray-400 text-base leading-relaxed">
+                            All performance metrics are calculated using real trading data with full transparency. **Historical performance does not guarantee future results, and all investments carry inherent risks.** We encourage all potential investors to carefully review our terms and seek independent financial advice.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="bg-black py-10 md:py-16 border-t border-gray-800">
+            <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 GoldenArk Capitals. All rights reserved.</p>
+                <div class="mt-4 space-x-4">
+                    <a href="#" class="hover:text-white transition-colors duration-200">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors duration-200">Terms of Service</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS with desired settings
+        AOS.init({
+            once: true,
+            mirror: false,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+
+        // JavaScript for Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        function toggleMobileMenu() {
+            const isMenuCurrentlyClosed = !mobileMenu.classList.contains('is-open');
+            mobileMenu.classList.toggle('is-open', isMenuCurrentlyClosed);
+            menuOverlay.classList.toggle('is-open', isMenuCurrentlyClosed);
+            mobileMenuButton.setAttribute('aria-expanded', isMenuCurrentlyClosed);
+            document.body.style.overflow = isMenuCurrentlyClosed ? 'hidden' : '';
+        }
+
+        mobileMenuButton.addEventListener('click', toggleMobileMenu);
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (mobileMenu.classList.contains('is-open')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        menuOverlay.addEventListener('click', toggleMobileMenu);
+    </script>
+</body>
+</html>
